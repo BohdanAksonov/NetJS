@@ -1,0 +1,74 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Optional Power</title>
+    <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script scr="~/lib/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div class="container-fluid" style="margin-top:2%;">
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="inputAge" placeholder="Input ages between 0 and 100"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="result" readonly />
+            </div>
+        </div>
+        <div id="test"></div>
+        <div class="row">
+            <button class="btn btn-primary" id="add" style="margin-left:1%;">Add to array</button>
+            <button class="btn btn-warning" id="find" style="margin-left:1%;">Find</button>
+            <button class="btn btn-dark" id="display" style="margin-left:1%;">Display array</button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        
+        var i = 0;
+        var array = [];
+
+        function addToArray() {
+            array[i] = $("#inputAge").val();
+            i++;
+            $("#inputAge").val('');
+        }
+
+        function fixAge(age) {
+            for (var i = 0; i < age.length; i++) {
+                if (age[i] < 18 || age[i] > 60) {
+                    age.splice(i, 1);
+                }
+            }
+        }
+        $(document).ready(function () {
+            $("#add").click(function () {
+                addToArray();
+            });
+
+            $("#display").click(function () {
+                $.each(array, function (index, value) {
+                    $("#test").append(index + ": " + value + '<br>');
+                });
+            });
+
+            $("#find").click(function () {
+                fixAge(array);
+                if (array.length != 0) {
+                    $("#result").val(array.join(", "));
+                }
+                else {
+                    $("#result").val("NA");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
